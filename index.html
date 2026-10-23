@@ -435,6 +435,36 @@ tbody tr:hover{background:#f8fbfe;filter:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+
+/* IMAGE + SINGLE-LINE STOCK LIST FIX — CSS and image URLs only */
+body{background-color:#f3f6fa;background-image:radial-gradient(circle at 18px 18px,rgba(57,133,180,.08) 0 1.5px,transparent 2px),radial-gradient(circle at 72px 64px,rgba(14,159,154,.055) 0 2px,transparent 3px),linear-gradient(135deg,#f5f9fd 0%,#edf4fa 55%,#f8fbfd 100%);background-size:64px 64px,112px 112px,100% 100%}
+body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.18;background-image:radial-gradient(circle at 24px 24px,transparent 0 15px,rgba(31,132,190,.22) 16px 17px,transparent 18px),radial-gradient(ellipse at 80px 65px,rgba(36,150,190,.2) 0 4px,transparent 5px);background-size:180px 155px}
+.app-header,.layout{position:relative;z-index:1}
+.welcome-hero{isolation:isolate;background:#d9eaf7}
+.welcome-hero>img,.welcome-hero img{position:absolute;inset:0;z-index:-2;display:block;width:100%;height:100%;min-width:100%;object-fit:cover;object-position:center 48%;opacity:1;visibility:visible}
+.welcome-overlay{z-index:-1;background:linear-gradient(90deg,rgba(247,250,253,.96) 0%,rgba(247,250,253,.88) 42%,rgba(247,250,253,.5) 68%,rgba(247,250,253,.08) 100%)}
+.welcome-copy{z-index:1}
+.sidebar-logo{display:block;object-fit:contain;background:#fff}
+.list-area{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.list-head,.item{grid-template-columns:30px 28px minmax(260px,2.5fr) minmax(105px,1fr) 56px minmax(145px,1.2fr) minmax(100px,.9fr) 14px!important;gap:10px!important;min-width:930px!important;width:100%}
+.list-head{white-space:nowrap}
+.list-head>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item{align-items:center}
+.item-main{display:block;min-width:0;width:100%;overflow:hidden}
+.item-name{display:block;width:100%;max-width:100%;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal!important;word-break:normal!important;line-height:1.4}
+.item-meta{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-category{display:inline-block;grid-column:auto!important;grid-row:auto!important;justify-self:start;max-width:100%;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;padding:4px 10px;line-height:1.35}
+.item-stock,.item-ed,.status-pill{white-space:nowrap}
+@media(max-width:900px){
+ .list-head,.item{grid-template-columns:26px 26px minmax(250px,2.2fr) minmax(100px,.9fr) 50px minmax(135px,1.1fr) minmax(95px,.9fr) 12px!important;gap:8px!important;min-width:900px!important}
+}
+@media(max-width:600px){
+ .welcome-hero>img,.welcome-hero img{object-position:62% center}
+ .list-head,.item{grid-template-columns:24px 24px minmax(240px,2fr) 100px 46px 125px 90px 10px!important;gap:7px!important;min-width:850px!important}
+ .item-name{font-size:11px}
+ .item-category{font-size:10px}
+}
+
 </style>
 </head>
 <body>
@@ -444,7 +474,7 @@ tbody tr:hover{background:#f8fbfe;filter:none}
 </header>
 <div class="layout">
  <aside class="sidebar">
-  <div class="sidebar-brand"><img class="sidebar-logo" src="./assets/bpom-logo.jpg" alt="Logo Badan POM"><div class="sidebar-brand-text"><strong>Balai POM di Ende</strong><span>Laboratorium Mikrobiologi</span></div></div>
+  <div class="sidebar-brand"><img class="sidebar-logo" src="https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/bpom-logo.jpg" alt="Logo Badan POM"><div class="sidebar-brand-text"><strong>Balai POM di Ende</strong><span>Laboratorium Mikrobiologi</span></div></div>
   <nav class="sidebar-nav" aria-label="Navigasi utama">
    <button class="nav-item active" id="navDashboard" type="button"><span class="nav-icon" aria-hidden="true">🏠</span><span class="nav-text">Beranda</span></button>
    <button class="nav-item" id="navStock" type="button"><span class="nav-icon" aria-hidden="true">🧫</span><span class="nav-text">Media / Reagen</span></button>
@@ -459,7 +489,7 @@ tbody tr:hover{background:#f8fbfe;filter:none}
   <div id="loading" class="status-msg">Memuat dashboard dari spreadsheet...</div><div id="errorBox" class="status-msg error hidden"></div>
   <section id="homeView">
    <section class="welcome-hero" aria-label="Selamat datang di Dashboard Kartu Stok">
-    <img src="./assets/lab-header.jpg?v=20261023" alt="Banner laboratorium mikrobiologi dengan mikroskop dan cawan Petri" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/lab-header.jpg?v=20261023';">
+    <img src="https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/lab-header.jpg" alt="Banner laboratorium mikrobiologi dengan mikroskop dan cawan Petri" onerror="this.onerror=null;this.src='https://github.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/raw/refs/heads/main/assets/lab-header.jpg';">
     <div class="welcome-overlay"></div>
     <div class="welcome-copy"><span>Selamat Datang di</span><h2>Dashboard Kartu Stok<br>Media dan Reagen</h2><strong>BPOM di Ende</strong><p>Pantau ketersediaan, kelola stok, dan lacak riwayat transaksi media serta reagen laboratorium dengan mudah dan real-time.</p></div>
    </section>
