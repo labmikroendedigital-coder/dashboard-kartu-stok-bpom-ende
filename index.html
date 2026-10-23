@@ -92,27 +92,29 @@ button:active{transform:translateY(1px)}
  .main{padding:12px 8px}
 }
 
+
+.brand{min-width:270px;width:270px;gap:10px;padding-right:16px}
+.brand-mark-image{display:block;width:116px;height:104px;object-fit:contain;flex-shrink:0}
+.brand-name{display:flex;align-items:center;min-width:0;font-size:23px;line-height:1.1}
+.brand-name .end{display:block;color:#0756a5;font-weight:900}
+.hero-art{flex:1 1 320px;min-width:260px;max-width:430px;height:116px;overflow:hidden;border-radius:14px;border:1px solid #b5d8f5;box-shadow:0 6px 18px #15568a1b;background:#d9edff}
+.hero-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 47%}
+@media(max-width:1200px){.brand{min-width:215px;width:215px;gap:7px}.brand-mark-image{width:90px;height:82px}.brand-name{font-size:18px}.hero-art{min-width:180px;max-width:260px;height:94px}}
+@media(max-width:950px){.brand{min-width:0;width:auto}.brand-mark-image{width:75px;height:68px}.brand-name{font-size:16px}.hero-art{display:block;flex:1 1 180px;min-width:160px;max-width:240px;height:70px}}
+@media(max-width:620px){.brand-mark-image{width:54px;height:50px}.brand-name{display:none}.hero-art{display:none}}
+
 </style>
 </head>
 <body>
 <header class="app-header">
- <div class="brand" aria-label="Balai POM di Ende">
-  <svg class="brand-mark" viewBox="0 0 80 90" aria-hidden="true"><path d="M7 42 L30 62 L48 10 L70 2 L45 76 L28 87 L0 58 Z" fill="#0a3973"/><path d="M38 57 L57 7 L72 1 L49 63 L40 72 Z" fill="#06965e"/><path d="M30 62 L43 26 L48 10 L30 62Z" fill="#55c4eb"/></svg>
-  <div class="brand-name"><span class="end">BADAN</span> <span>POM</span><span class="end">DI ENDE</span></div>
+ <div class="brand" aria-label="Badan POM di Ende">
+  <img class="brand-mark-image" src="assets/bpom-logo.jpg" alt="Logo Badan POM">
+  <div class="brand-name"><span class="end">DI ENDE</span></div>
+ </div>
  </div>
  <div class="hero-title"><h1>Kartu Stok Reagen dan Media<br>Laboratorium Mikrobiologi</h1><p>Akurat • Terpercaya • Untuk Keamanan Obat dan Makanan</p></div>
- <div class="hero-art" aria-hidden="true">
-  <svg viewBox="0 0 470 132" role="img" aria-label="Ilustrasi laboratorium mikrobiologi">
-   <defs>
-    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#7dd3fc" stop-opacity=".35"/></linearGradient>
-    <radialGradient id="agar"><stop offset="0" stop-color="#fb7185"/><stop offset=".62" stop-color="#e11d48"/><stop offset="1" stop-color="#9f1239"/></radialGradient>
-    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#dbeafe"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#60a5fa"/></linearGradient>
-   </defs>
-   <g fill="none" stroke="#60a5fa" stroke-width="1.5" opacity=".42"><path d="M14 30L42 15L66 33L90 14M42 15L45 54L72 69M350 19L375 33L399 13L429 32L451 14M375 33L367 64L402 76"/><circle cx="14" cy="30" r="4" fill="#93c5fd"/><circle cx="42" cy="15" r="4" fill="#93c5fd"/><circle cx="66" cy="33" r="4" fill="#93c5fd"/><circle cx="90" cy="14" r="4" fill="#93c5fd"/><circle cx="45" cy="54" r="4" fill="#93c5fd"/><circle cx="72" cy="69" r="4" fill="#93c5fd"/><circle cx="350" cy="19" r="4" fill="#93c5fd"/><circle cx="399" cy="13" r="4" fill="#93c5fd"/><circle cx="429" cy="32" r="4" fill="#93c5fd"/></g>
-   <g transform="translate(102 8)"><circle cx="61" cy="58" r="54" fill="#dbeafe" fill-opacity=".6" stroke="#93c5fd" stroke-width="5"/><circle cx="61" cy="58" r="46" fill="url(#agar)" stroke="#fff" stroke-width="3"/><g fill="#fecdd3" opacity=".9"><circle cx="40" cy="35" r="3"/><circle cx="67" cy="28" r="2.5"/><circle cx="80" cy="44" r="3.5"/><circle cx="48" cy="65" r="2.7"/><circle cx="73" cy="73" r="3"/><circle cx="33" cy="78" r="2"/><circle cx="91" cy="62" r="2.5"/><circle cx="58" cy="48" r="2"/><circle cx="85" cy="84" r="2"/><circle cx="30" cy="50" r="2.5"/><circle cx="57" cy="90" r="2.5"/></g><path d="M24 45Q60 8 92 40" stroke="#fff" stroke-width="3" opacity=".7" fill="none"/></g>
-   <g transform="translate(255 3)"><circle cx="54" cy="53" r="43" fill="url(#glass)" stroke="#60a5fa" stroke-width="4"/><circle cx="54" cy="53" r="34" fill="#bfdbfe" fill-opacity=".4" stroke="#e0f2fe" stroke-width="2"/><g fill="#0284c7" opacity=".78"><circle cx="38" cy="34" r="4"/><circle cx="68" cy="29" r="3"/><circle cx="77" cy="52" r="4"/><circle cx="44" cy="63" r="3"/><circle cx="61" cy="74" r="4"/><circle cx="28" cy="54" r="2.5"/><circle cx="57" cy="46" r="2.5"/></g><g stroke="#fff" stroke-width="2" opacity=".8"><path d="M28 36l10-5 8 8M60 21l6 7 10-2M55 58l-8 8 4 8"/></g></g>
-   <g transform="translate(330 4)" stroke-linejoin="round"><path d="M50 0h34v12H50z" fill="#0f477b"/><path d="M59 12h18v26l-7 8H59z" fill="url(#steel)" stroke="#3979aa" stroke-width="2"/><path d="M57 43h22v9H57z" fill="#0f477b"/><path d="M66 52v17l-21 19 8 8 26-24V52z" fill="url(#steel)" stroke="#3979aa" stroke-width="2"/><path d="M42 89h31v8H42z" fill="#0f477b"/><path d="M52 96l-12 15h56v-8L75 96z" fill="#0f477b"/><path d="M74 35l16 14-5 6-17-13z" fill="#2563a6"/><path d="M36 28l22 0 0 7-22 0z" fill="#dbeafe" stroke="#3979aa" stroke-width="2"/><path d="M35 31l-10 12 6 6 12-12" fill="#2563a6"/><path d="M21 48h20v7H21z" fill="#dbeafe" stroke="#3979aa" stroke-width="2"/></g>
-  </svg>
+ <div class="hero-art" aria-label="Foto laboratorium mikrobiologi">
+  <img src="assets/lab-header.jpg" alt="Laboratorium mikrobiologi dengan mikroskop dan cawan kultur">
  </div>
  <div class="date-chip"><span aria-hidden="true">▦</span><span><span id="dateChip">Kamis, 22 Oktober 2026</span><br><span id="timeChip">WIB</span></span></div>
 </header>
