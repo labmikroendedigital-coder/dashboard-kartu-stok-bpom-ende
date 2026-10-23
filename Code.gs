@@ -5,7 +5,7 @@ function doGet(e){
   if (e && e.parameter && e.parameter.api === '1') {
     const p = e.parameter || {};
     const callback = String(p.callback || '');
-    if (!/^[A-Za-z_$][0-9A-Za-z_$\.]*$/.test(callback)) {
+    if (!/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(callback)) {
       return ContentService.createTextOutput('/* callback JSONP tidak valid */')
         .setMimeType(ContentService.MimeType.JAVASCRIPT);
     }
