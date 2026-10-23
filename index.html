@@ -162,6 +162,22 @@ button:active{transform:translateY(1px)}
 @media(max-width:1180px){.layout{grid-template-columns:220px minmax(0,1fr)}.sidebar-brand{padding-left:15px}.sidebar-logo{width:125px}.topbar-actions{gap:12px}.last-updated{display:none}.content-grid{grid-template-columns:minmax(0,1fr)}.detail-panel{position:static;max-height:none}.welcome-hero{height:220px}}
 @media(max-width:800px){.app-header{height:auto;min-height:78px;padding:12px 15px}.topbar-title h1{font-size:19px}.topbar-title p{font-size:12px}.topbar-actions{gap:10px}.online-indicator{display:none}.top-reload{padding:9px 12px}.layout{grid-template-columns:76px minmax(0,1fr);min-height:calc(100vh - 78px)}.sidebar{padding:0 7px 12px}.sidebar-brand{margin:0 -7px 12px;padding:12px 6px;align-items:center;min-height:82px;border-radius:0 0 10px 10px}.sidebar-logo{width:58px;height:42px}.sidebar-brand-text{display:none}.nav-item{justify-content:center;padding:10px 5px;min-height:44px}.nav-text{display:none}.sidebar-bottom{display:none}.main{padding:12px}.welcome-hero{height:205px;min-height:190px}.welcome-copy{left:20px;max-width:290px}.welcome-copy h2{font-size:23px}.welcome-copy p{font-size:11px}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:520px){.topbar-title .eyebrow{font-size:8px}.topbar-title h1{font-size:17px}.top-reload span{display:none}.top-reload{padding:9px 11px}.welcome-hero{height:220px}.welcome-copy{max-width:78%;left:15px}.welcome-copy h2{font-size:21px}.welcome-copy strong{font-size:16px}.summary{gap:8px}.stat{padding:10px;gap:8px;min-height:94px}.stat-icon{width:42px;height:42px;font-size:20px}.stat-value{font-size:24px}.main{padding:9px}.toolbar{gap:8px}.toolbar h2{font-size:15px}}
+
+/* Lab-themed icon polish: emoji glyphs in consistent glass-like icon tiles */
+.nav-item .nav-icon{font-size:22px;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:none;background:rgba(205,232,255,.10);box-shadow:inset 0 0 0 1px rgba(214,239,255,.10);filter:saturate(1.08)}
+.nav-item.active .nav-icon,.nav-item:hover .nav-icon{background:rgba(255,255,255,.20);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.sidebar-brand{border-bottom:3px solid #24a7a5}
+.sidebar-logo{filter:drop-shadow(0 3px 4px rgba(10,55,95,.10))}
+.side-lab-art{font-size:68px;opacity:.72;filter:drop-shadow(0 8px 12px rgba(52,190,255,.2))}
+.stat-icon.lab-icon{position:relative;display:grid;place-items:center;width:54px;height:54px;min-width:54px;border-radius:17px;font-size:30px;line-height:1;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(220,240,255,.84));border:1px solid rgba(255,255,255,.85);box-shadow:0 5px 13px rgba(13,56,100,.10),inset 0 1px 0 #fff}
+.stat-icon.lab-icon>span{display:block;transform:translateY(-1px);filter:drop-shadow(0 2px 1px rgba(17,52,86,.12))}
+.stat.red .stat-icon.lab-icon{background:linear-gradient(145deg,#fff4f2,#ffe1dd);border-color:#ffd1ca;box-shadow:0 5px 14px rgba(198,54,54,.12)}
+.stock-zero-icon i{position:absolute;right:-5px;top:-6px;width:22px;height:22px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(145deg,#ff6c63,#d92f42);color:#fff;font:900 15px/1 system-ui,sans-serif;font-style:normal;border:2px solid #fff;box-shadow:0 3px 8px rgba(174,29,45,.25)}
+.stat.blue .stat-icon.lab-icon{background:linear-gradient(145deg,#edf8ff,#d5edff)}
+.stat.green .stat-icon.lab-icon{background:linear-gradient(145deg,#edfff5,#d1f7e3)}
+.stat.purple .stat-icon.lab-icon{background:linear-gradient(145deg,#f6f0ff,#e7dcff)}
+@media(max-width:620px){.nav-item .nav-icon{width:34px;height:34px;font-size:21px}.stat-icon.lab-icon{width:45px;height:45px;min-width:45px;border-radius:14px;font-size:26px}}
+
 </style>
 </head>
 <body>
@@ -173,13 +189,13 @@ button:active{transform:translateY(1px)}
  <aside class="sidebar">
   <div class="sidebar-brand"><img class="sidebar-logo" src="./assets/bpom-logo.jpg" alt="Logo Badan POM"><div class="sidebar-brand-text"><strong>Balai POM di Ende</strong><span>Laboratorium Mikrobiologi</span></div></div>
   <nav class="sidebar-nav" aria-label="Navigasi utama">
-   <button class="nav-item active" id="navDashboard" type="button"><span class="nav-icon">⌂</span><span class="nav-text">Beranda</span></button>
-   <button class="nav-item" id="navStock" type="button"><span class="nav-icon">♧</span><span class="nav-text">Media / Reagen</span></button>
-   <button class="nav-item" id="navHistory" type="button"><span class="nav-icon">⟳</span><span class="nav-text">Riwayat Transaksi</span></button>
-   <button class="nav-item" id="navReports" type="button"><span class="nav-icon">▤</span><span class="nav-text">Laporan</span></button>
-   <div class="nav-item nav-static" aria-label="Pengaturan"><span class="nav-icon">⚙</span><span class="nav-text">Pengaturan</span></div>
+   <button class="nav-item active" id="navDashboard" type="button"><span class="nav-icon" aria-hidden="true">🏠</span><span class="nav-text">Beranda</span></button>
+   <button class="nav-item" id="navStock" type="button"><span class="nav-icon" aria-hidden="true">🧫</span><span class="nav-text">Media / Reagen</span></button>
+   <button class="nav-item" id="navHistory" type="button"><span class="nav-icon" aria-hidden="true">🧾</span><span class="nav-text">Riwayat Transaksi</span></button>
+   <button class="nav-item" id="navReports" type="button"><span class="nav-icon" aria-hidden="true">📊</span><span class="nav-text">Laporan</span></button>
+   <div class="nav-item nav-static" aria-label="Pengaturan"><span class="nav-icon" aria-hidden="true">⚙️</span><span class="nav-text">Pengaturan</span></div>
   </nav>
-  <div class="sidebar-bottom"><div class="side-lab-art">⚗</div><strong>Laboratorium Mikrobiologi</strong><span>Balai POM di Ende</span><p>Mendukung keamanan pangan untuk masyarakat</p></div>
+  <div class="sidebar-bottom"><div class="side-lab-art" aria-hidden="true">🧬</div><strong>Laboratorium Mikrobiologi</strong><span>Balai POM di Ende</span><p>Mendukung keamanan pangan untuk masyarakat</p></div>
   <div class="side-decoration"></div>
  </aside>
  <main class="main">
@@ -191,10 +207,10 @@ button:active{transform:translateY(1px)}
     <div class="welcome-copy"><span>Selamat Datang di</span><h2>Dashboard Kartu Stok<br>Media dan Reagen</h2><strong>BPOM di Ende</strong><p>Pantau ketersediaan, kelola stok, dan lacak riwayat transaksi media serta reagen laboratorium dengan mudah dan real-time.</p></div>
    </section>
    <div class="summary">
-    <div class="stat blue"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 6h12M21 6v12L11 36a4 4 0 0 0 3.5 6h19A4 4 0 0 0 37 36L27 18V6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 31h16M20 25h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="22" cy="35" r="1.5" fill="currentColor"/><circle cx="28" cy="34" r="1.5" fill="currentColor"/></svg></div><div><div class="stat-label">Total Kartu Stok</div><div class="stat-value" id="totalCount">—</div><div class="stat-sub">Media &amp; Reagen</div></div></div>
-    <div class="stat green"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M17 5h14M20 5v13L10 36a4 4 0 0 0 3.5 6h21a4 4 0 0 0 3.5-6L28 18V5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 32h18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M19 26h10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><div class="stat-label">Total Jenis Bahan</div><div class="stat-value" id="activeCount">—</div><div class="stat-sub">Stok tersedia (&gt; 0)</div></div></div>
-    <div class="stat red"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 44 40H4L24 5Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M24 17v11" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><circle cx="24" cy="34" r="2" fill="currentColor"/></svg></div><div><div class="stat-label">Stok Nol / Negatif</div><div class="stat-value" id="zeroCount">—</div><div class="stat-sub">Perlu perhatian</div></div></div>
-    <div class="stat purple"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="10" width="36" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M6 19h36M15 5v10M33 5v10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><g fill="currentColor"><rect x="13" y="24" width="5" height="5" rx="1"/><rect x="22" y="24" width="5" height="5" rx="1"/><rect x="31" y="24" width="5" height="5" rx="1"/><rect x="13" y="33" width="5" height="5" rx="1"/><rect x="22" y="33" width="5" height="5" rx="1"/></g></svg></div><div><div class="stat-label">Akan ED dalam 30 Hari</div><div class="stat-value" id="nearCount">—</div><div class="stat-sub">Batch</div></div></div>
+    <div class="stat blue"><div class="stat-icon lab-icon"><span aria-hidden="true">🧫</span></div><div><div class="stat-label">Total Kartu Stok</div><div class="stat-value" id="totalCount">—</div><div class="stat-sub">Media &amp; Reagen</div></div></div>
+    <div class="stat green"><div class="stat-icon lab-icon"><span aria-hidden="true">🧪</span></div><div><div class="stat-label">Total Jenis Bahan</div><div class="stat-value" id="activeCount">—</div><div class="stat-sub">Stok tersedia (&gt; 0)</div></div></div>
+    <div class="stat red"><div class="stat-icon lab-icon stock-zero-icon"><span aria-hidden="true">🧪</span><i aria-hidden="true">!</i></div><div><div class="stat-label">Stok Nol / Negatif</div><div class="stat-value" id="zeroCount">—</div><div class="stat-sub">Perlu perhatian</div></div></div>
+    <div class="stat purple"><div class="stat-icon lab-icon"><span aria-hidden="true">📅</span></div><div><div class="stat-label">Akan ED dalam 30 Hari</div><div class="stat-value" id="nearCount">—</div><div class="stat-sub">Batch</div></div></div>
    </div>
    <div class="content-grid">
     <section class="panel">
