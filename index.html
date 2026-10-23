@@ -299,7 +299,8 @@ function callPublicApi(action, params, success, failure) {
     if (failure) failure(new Error('Browser gagal memuat API Apps Script. Periksa URL deployment dan izin akses Web app.'));
   };
 
-  query.set('_', String(Date.now()));\n  script.src = APPS_SCRIPT_API_URL + '?' + query.toString();
+  query.set('_', String(Date.now()));
+  script.src = APPS_SCRIPT_API_URL + '?' + query.toString();
   script.async = true;
   document.head.appendChild(script);
 }
@@ -459,7 +460,7 @@ function renderAggregate(){
 }
 window.addEventListener('load',()=>{const updateClock=()=>{const now=new Date();txt('dateChip',now.toLocaleDateString('id-ID',{weekday:'short',day:'2-digit',month:'short',year:'numeric'}));txt('timeChip',now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Makassar'})+' WITA')};updateClock();window.setInterval(updateClock,60000);loadDashboard(false)});
 window.setInterval(() => {
- if (!busyDashboard) loadDashboard(true);
+ if (!busyDashboard) loadDashboard(false);
  if (currentSheet && !busyDetail) {
   const name = currentSheet;
   callPublicApi(
