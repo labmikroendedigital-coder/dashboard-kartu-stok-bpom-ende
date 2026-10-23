@@ -47,13 +47,12 @@ function buildDashboardData_(){
   ss.getSheets().forEach(sh=>{
     const last=sh.getLastRow();
     if(last<13) return;
-    const sourceRange=sh.getRange(9,1,Math.max(last-8,5),12);
-    const v=sourceRange.getValues();
-    const display=sourceRange.getDisplayValues();
+    // Satu pembacaan rentang per kartu stok; getValues() sudah mengembalikan hasil formula.
+    // Menghindari getDisplayValues() kedua kali untuk tiap sheet agar dashboard lebih cepat.
+    const v=sh.getRange(9,1,Math.max(last-8,5),12).getValues();
     if(!String(v[0][4]||'').trim() || String(v[4][2]||'').toLowerCase().indexOf('tanggal')<0) return;
 
     const rows=v.slice(5);
-    const displayRows=display.slice(5);
     let stock=0,lastDate=null,hasTxn=false;
     let activeBatches=[];
 
@@ -62,12 +61,12 @@ function buildDashboardData_(){
       if(d&&(!lastDate||d>lastDate)) lastDate=d;
       if(r.some(x=>String(x??'').trim()!=='')){stock=number_(r[7]);hasTxn=true;}
 
-      const shown=displayRows[i]||[];
-      const batchText=String(shown[4]??'').trim();
-      const edText=String(shown[8]??'').trim();
+      const batchText=String(r[4]??'').trim();
+      const edValue=r[8];
+      const edText=edValue instanceof Date ? formatDate_(edValue) : String(edValue??'').trim();
       const batchEntries=parseBatchEntries_(batchText);
       if(batchEntries.length){
-        const edEntries=parseEdEntries_(edText);
+        const edEntries=parseEdEntries_(edValue);
         activeBatches=batchEntries.map(b=>{
           const ed=edEntries.find(e=>e.number===b.number) || edEntries[batchEntries.indexOf(b)] || (edEntries.length===1 && edEntries[0].value==='-' ? edEntries[0] : null);
           return {number:b.number,batch:b.value,expiry:ed?ed.value:'',rowNumber:14+i};
