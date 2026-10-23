@@ -296,6 +296,25 @@ body{background:#edf6ff;color:#153d69}
 @media(max-width:1050px){.layout{grid-template-columns:205px minmax(0,1fr)}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1fr)}.detail-panel{position:relative;top:auto;max-height:none}.welcome-copy{max-width:520px}}
 @media(max-width:720px){.app-header{padding:15px;align-items:flex-start;gap:12px;flex-direction:column}.topbar-actions{width:100%;justify-content:flex-start}.layout{grid-template-columns:1fr}.sidebar{padding:10px 12px}.sidebar-brand{padding:4px 4px 10px;margin-bottom:4px}.sidebar-logo{width:42px;height:42px}.sidebar-nav{display:flex;overflow-x:auto;gap:6px;padding-bottom:4px}.nav-item{flex:0 0 auto;padding:6px 9px;min-height:42px}.nav-item .nav-icon{width:29px;height:29px;font-size:18px}.nav-text{font-size:11px}.sidebar-bottom{display:none}.main{padding:13px}.welcome-hero{height:205px;min-height:205px}.welcome-copy{left:15px;max-width:78%;padding:10px}.welcome-copy h2{font-size:22px}.welcome-copy p{font-size:10px}.summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{min-height:100px;padding:11px 9px;gap:8px}.stat-icon.lab-icon{width:42px;height:42px;min-width:42px;font-size:21px}.stat-label{font-size:10px}.stat-value{font-size:24px}.stat-sub{font-size:9px}.toolbar h2{width:100%}.search{max-width:none;width:100%}.panel{padding:11px}.live-clock{display:flex}.last-updated{display:none}}
 
+
+/* Fix: use a directly hosted raster banner and make name/category columns visibly distinct */
+.welcome-hero{background-color:#073b78!important;background-image:linear-gradient(110deg,#073b78,#087ac2)!important}
+.welcome-hero>img{display:block!important;visibility:visible!important;opacity:1!important;z-index:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 48%!important}
+.welcome-overlay{z-index:1!important}
+.welcome-copy{z-index:2!important}
+.list-area{width:100%;overflow-x:auto;overflow-y:hidden;border:1px solid #d5e8f8;border-radius:12px}
+.list-head,.item{grid-template-columns:32px 36px minmax(340px,3.4fr) 130px 72px minmax(175px,1.25fr) 118px 20px!important;column-gap:18px!important;min-width:1180px!important}
+.list-head{padding:14px 16px!important;background:linear-gradient(90deg,#dcedfc,#f1f8ff)!important;font-weight:850!important}
+.item{padding:13px 16px!important;min-height:66px;align-items:center!important}
+.item-main{min-width:0!important;overflow:visible!important;padding-right:12px!important;border-right:1px solid #e1eef8}
+.item-name{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;line-height:1.4!important;font-size:13px!important;font-weight:800!important;color:#123f70!important}
+.item-meta{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.35!important;margin-top:4px!important}
+.item-category{justify-self:start!important;min-width:88px;text-align:center;padding:6px 12px!important;font-size:11px!important;line-height:1.2!important}
+.item-stock{text-align:center!important;font-variant-numeric:tabular-nums}
+.item-ed{white-space:nowrap!important;font-variant-numeric:tabular-nums}
+@media(max-width:1200px){.list-head,.item{grid-template-columns:30px 32px minmax(300px,3fr) 120px 66px minmax(165px,1.2fr) 108px 18px!important;column-gap:14px!important;min-width:1080px!important}}
+@media(max-width:720px){.list-head,.item{min-width:1060px!important}.item{padding:11px 12px!important}.list-head{padding:12px!important}}
+
 </style>
 </head>
 <body>
@@ -320,7 +339,7 @@ body{background:#edf6ff;color:#153d69}
   <div id="loading" class="status-msg">Memuat dashboard dari spreadsheet...</div><div id="errorBox" class="status-msg error hidden"></div>
   <section id="homeView">
    <section class="welcome-hero" aria-label="Selamat datang di Dashboard Kartu Stok">
-    <img src="./assets/lab-header.jpg?v=20261023" alt="Banner laboratorium mikrobiologi dengan mikroskop dan cawan Petri" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/lab-header.jpg?v=20261023';">
+    <img src="https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/lab-header.jpg?v=20261023" alt="Banner laboratorium mikrobiologi dengan mikroskop dan cawan Petri" onerror="this.onerror=null;this.style.display='none';this.parentElement.style.backgroundImage='linear-gradient(110deg,#073b78,#087ac2)';">
     <div class="welcome-overlay"></div>
     <div class="welcome-copy"><span>Selamat Datang di</span><h2>Dashboard Kartu Stok<br>Media dan Reagen</h2><strong>BPOM di Ende</strong><p>Pantau ketersediaan, kelola stok, dan lacak riwayat transaksi media serta reagen laboratorium dengan mudah dan real-time.</p></div>
    </section>
@@ -352,10 +371,10 @@ body{background:#edf6ff;color:#153d69}
     <div class="toolbar"><h2><span class="section-icon">▥</span>Laporan Ringkas Stok</h2><button id="reloadReportButton" class="btn light">↻ Perbarui laporan</button></div>
     <p class="muted">Ringkasan dihitung dari kartu stok dan transaksi yang tercatat pada spreadsheet.</p>
     <div class="summary">
-     <div class="stat blue"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 6h12M21 6v12L11 36a4 4 0 0 0 3.5 6h19A4 4 0 0 0 37 36L27 18V6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 31h16M20 25h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="22" cy="35" r="1.5" fill="currentColor"/><circle cx="28" cy="34" r="1.5" fill="currentColor"/></svg></div><div><div class="stat-label">Total Kartu Stok</div><div class="stat-value" id="reportTotal">—</div></div></div>
-     <div class="stat green"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M17 5h14M20 5v13L10 36a4 4 0 0 0 3.5 6h21a4 4 0 0 0 3.5-6L28 18V5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 32h18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M19 26h10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><div class="stat-label">Total Unit Masuk</div><div class="stat-value" id="reportIncoming">—</div></div></div>
-     <div class="stat red"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 6h12M21 6v12L11 36a4 4 0 0 0 3.5 6h19A4 4 0 0 0 37 36L27 18V6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 31h16M20 25h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="22" cy="35" r="1.5" fill="currentColor"/><circle cx="28" cy="34" r="1.5" fill="currentColor"/></svg></div><div><div class="stat-label">Total Unit Keluar</div><div class="stat-value" id="reportOutgoing">—</div></div></div>
-     <div class="stat purple"><div class="stat-icon icon-svg"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 44 40H4L24 5Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M24 17v11" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><circle cx="24" cy="34" r="2" fill="currentColor"/></svg></div><div><div class="stat-label">Stok Nol/Negatif</div><div class="stat-value" id="reportZero">—</div></div></div>
+     <div class="stat blue"><div class="stat-icon lab-icon" aria-hidden="true"><span>🧫</span></div><div><div class="stat-label">Total Kartu Stok</div><div class="stat-value" id="reportTotal">—</div></div></div>
+     <div class="stat green"><div class="stat-icon lab-icon" aria-hidden="true"><span>🧪</span></div><div><div class="stat-label">Total Unit Masuk</div><div class="stat-value" id="reportIncoming">—</div></div></div>
+     <div class="stat red"><div class="stat-icon lab-icon" aria-hidden="true"><span>📦</span></div><div><div class="stat-label">Total Unit Keluar</div><div class="stat-value" id="reportOutgoing">—</div></div></div>
+     <div class="stat purple"><div class="stat-icon lab-icon" aria-hidden="true"><span>⚠️</span></div><div><div class="stat-label">Stok Nol/Negatif</div><div class="stat-value" id="reportZero">—</div></div></div>
     </div>
     <div id="reportLoading" class="status-msg hidden">Menghitung ringkasan transaksi...</div><div id="reportError" class="status-msg error hidden"></div>
     <h3>Transaksi Terbaru</h3><div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Media/Reagen</th><th>Keterangan</th><th>Keluar</th><th>Masuk</th><th>Saldo</th></tr></thead><tbody id="reportBody"></tbody></table></div>
