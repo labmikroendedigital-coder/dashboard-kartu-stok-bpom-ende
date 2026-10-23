@@ -98,6 +98,7 @@ function callPublicApi(action, params, success, failure) {
   });
   const script = document.createElement('script');
   let finished = false;
+  let callbackCalled = false;
   let timer;
 
   function cleanup() {
@@ -110,10 +111,11 @@ function callPublicApi(action, params, success, failure) {
 
   timer = setTimeout(() => {
     cleanup();
-    if (failure) failure(new Error('Permintaan API melewati batas waktu. Periksa deployment Apps Script dan izinnya.'));
+    if (failure) failure(new Error('API tidak memberi respons dalam 20 detik. Periksa versi deployment Apps Script dan izin akses Web app.'));
   }, 20000);
 
   window[callbackName] = result => {
+    callbackCalled = true;
     cleanup();
     if (result && result.error) {
       if (failure) failure(new Error(result.error));
@@ -122,9 +124,16 @@ function callPublicApi(action, params, success, failure) {
     if (success) success(result);
   };
 
+  script.onload = () => {
+    if (!callbackCalled) {
+      cleanup();
+      if (failure) failure(new Error('Apps Script merespons, tetapi fungsi callback tidak dijalankan. Kemungkinan versi deployment belum memuat API JSONP terbaru.'));
+    }
+  };
+
   script.onerror = () => {
     cleanup();
-    if (failure) failure(new Error('Tidak dapat mengakses API Apps Script. Periksa deployment Web app dan izin akses.'));
+    if (failure) failure(new Error('Browser gagal memuat API Apps Script. Periksa URL deployment dan izin akses Web app.'));
   };
 
   script.src = APPS_SCRIPT_API_URL + '?' + query.toString();
