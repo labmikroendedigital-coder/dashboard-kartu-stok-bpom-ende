@@ -212,6 +212,17 @@ body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 @media(max-width:950px){.live-clock{padding:6px 8px}.live-clock strong,.live-clock small{font-size:10px}.welcome-hero{height:205px;min-height:205px}.welcome-copy{padding:20px}.welcome-copy h2{font-size:23px}}
 @media(max-width:620px){.topbar-actions{width:100%;justify-content:flex-start}.live-clock{display:none}.welcome-hero{height:185px;min-height:185px;border-radius:12px}.welcome-hero img{object-position:62% center}.welcome-overlay{background:linear-gradient(90deg,rgba(241,249,255,.97),rgba(239,248,255,.83) 62%,rgba(231,246,255,.24))}.welcome-copy{padding:14px}.welcome-copy h2{font-size:18px}.welcome-copy p{font-size:10px;max-width:280px}.welcome-copy>span{font-size:9px}.list-head,.item{min-width:900px}.list-area{overflow-x:auto}.item-ed{white-space:nowrap}}
 
+
+/* Table readability refinement: separate item names from category chips */
+.list-head,.item{grid-template-columns:30px 30px minmax(300px,3fr) 112px 62px minmax(165px,1.25fr) 112px 18px!important;column-gap:14px!important;min-width:1080px!important}
+.list-head>span:nth-child(3),.item-main{padding-right:8px;box-sizing:border-box}
+.list-head>span:nth-child(4),.item-category{margin-left:2px}
+.item-main{min-width:0;overflow:hidden}
+.item-name{max-width:100%;line-height:1.45}
+.item-meta{line-height:1.45}
+@media(max-width:1200px){.list-head,.item{grid-template-columns:30px 28px minmax(260px,2.5fr) 104px 55px minmax(155px,1.25fr) 102px 14px!important;column-gap:12px!important;min-width:1000px!important}}
+@media(max-width:620px){.list-head,.item{min-width:980px!important}}
+
 </style>
 </head>
 <body>
