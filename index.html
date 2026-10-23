@@ -103,31 +103,93 @@ button:active{transform:translateY(1px)}
 @media(max-width:950px){.brand{min-width:0;width:auto}.brand-mark-image{width:75px;height:68px}.brand-name{font-size:16px}.hero-art{display:block;flex:1 1 180px;min-width:160px;max-width:240px;height:70px}}
 @media(max-width:620px){.brand-mark-image{width:54px;height:50px}.brand-name{display:none}.hero-art{display:none}}
 
+
+/* Reference-inspired dashboard layout */
+.app-header{height:88px;padding:12px 28px 12px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:rgba(255,255,255,.94);border-bottom:1px solid #e0ebf8;box-shadow:0 3px 15px #0c37650a;isolation:auto}
+.app-header:after{display:none}
+.topbar-title .eyebrow{font-size:9px;font-weight:800;letter-spacing:1.25px;color:#6d8bab;margin-bottom:1px}
+.topbar-title h1{margin:0;color:#0b3266;font-size:22px;line-height:1.15;font-weight:850;letter-spacing:-.35px}
+.topbar-title p{margin:3px 0 0;color:#5b7ba3;font-size:14px}
+.topbar-actions{display:flex;align-items:center;gap:24px;color:#47678e;font-size:11px}
+.last-updated{display:flex;align-items:center;gap:9px;line-height:1.45;white-space:nowrap}
+.last-updated strong{color:#183f70;font-weight:700}
+.clock-icon{font-size:24px;color:#2e5e95}
+.top-reload{border:1px solid #d2e3ff;background:linear-gradient(#fff,#f0f6ff);color:#1358a7;border-radius:28px;padding:11px 18px;font-weight:800;box-shadow:0 4px 12px #1855a414}
+.top-reload:hover{background:#eaf4ff}
+.online-indicator{display:flex;align-items:center;gap:8px;color:#163b68;font-weight:750;white-space:nowrap}
+.online-indicator i{width:9px;height:9px;border-radius:50%;background:#13b981;box-shadow:0 0 0 4px #d9f9eb}
+.layout{grid-template-columns:248px minmax(0,1fr);min-height:calc(100vh - 88px)}
+.sidebar{padding:0 14px 18px;background:linear-gradient(180deg,#073b78 0%,#052d62 62%,#05244e 100%);gap:0}
+.sidebar-brand{margin:0 -14px 18px;padding:18px 18px 17px;background:linear-gradient(135deg,#fff,#f0f7ff);color:#113b70;min-height:122px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;border-radius:0 0 15px 0;box-shadow:0 5px 18px #001e4015}
+.sidebar-logo{width:142px;height:72px;object-fit:contain;object-position:left center;display:block}
+.sidebar-brand-text strong{display:block;font-size:15px;line-height:1.2;color:#0c376b;font-weight:850}
+.sidebar-brand-text span{display:block;margin-top:3px;font-size:10px;color:#6582a5}
+.sidebar-nav{display:flex;flex-direction:column;gap:7px}
+.nav-item{min-height:47px;padding:12px 13px;border-radius:11px;font-size:13px;gap:13px;color:#e8f4ff}
+.nav-item .nav-icon{font-size:21px;width:27px;height:27px;display:grid;place-items:center;flex:none}
+.nav-item.active,.nav-item:hover{background:linear-gradient(100deg,#237de0,#1263bf);box-shadow:0 5px 14px #001c3d3d}
+.nav-static{cursor:default;opacity:.96}
+.sidebar-bottom{position:relative;z-index:1;margin-top:auto;padding:15px 8px 4px;color:#d7eaff;display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:12px}
+.side-lab-art{height:110px;width:100%;display:flex;align-items:center;justify-content:center;font-size:80px;color:#8bc9ff;opacity:.45;text-shadow:0 0 24px #43a6ff;margin-bottom:8px}
+.sidebar-bottom strong{font-size:12px;line-height:1.4}
+.sidebar-bottom span{font-size:11px;color:#a9d0f7}
+.sidebar-bottom p{font-size:11px;font-style:italic;line-height:1.5;color:#b8d8f6;margin:8px 0 0}
+.side-micro{display:none}
+.main{padding:18px 18px 28px;background:linear-gradient(135deg,#f7fbff 0%,#edf6ff 100%)}
+.welcome-hero{position:relative;min-height:230px;height:clamp(205px,18vw,275px);border-radius:15px;overflow:hidden;margin:0 0 17px;background:#083a79;box-shadow:0 8px 23px #164e7c14}
+.welcome-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 48%;display:block}
+.welcome-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,42,101,.98) 0%,rgba(4,48,111,.94) 29%,rgba(4,54,119,.62) 46%,rgba(5,51,101,.06) 72%)}
+.welcome-copy{position:absolute;left:clamp(24px,3.2vw,48px);top:50%;transform:translateY(-50%);max-width:390px;color:#fff;z-index:1}
+.welcome-copy>span{font-size:14px;display:block;margin-bottom:8px}
+.welcome-copy h2{font-size:clamp(24px,2.2vw,34px);line-height:1.1;letter-spacing:-.55px;margin:0 0 9px;color:white;font-weight:850}
+.welcome-copy strong{display:block;color:#22d7a0;font-size:20px;margin-bottom:9px}
+.welcome-copy p{font-size:12px;line-height:1.5;margin:0;max-width:350px;color:#eff7ff}
+.summary{gap:14px;margin-bottom:17px}
+.stat{min-height:112px;padding:15px 17px;border-radius:13px;box-shadow:0 6px 18px #0b43840a}
+.content-grid{grid-template-columns:minmax(0,1.65fr) minmax(285px,.85fr);gap:15px}
+.panel{border-radius:13px;box-shadow:0 5px 18px #164c7a0a;padding:15px}
+.toolbar h2,.panel h2{font-size:18px}
+.list-head,.item{grid-template-columns:minmax(165px,2fr) 85px 48px 65px 80px 95px;min-width:680px;gap:9px}
+.list-head span:first-child,.item-num,.list-head span:nth-child(2),.item-symbol{display:none}
+.list-head{padding:11px 13px;grid-template-columns:minmax(165px,2fr) 85px 48px 65px 80px 95px}
+.item{grid-template-columns:minmax(165px,2fr) 85px 48px 65px 80px 95px;padding:10px 13px}
+.item-main{grid-column:1}
+.item-category{grid-column:2}
+.item-stock{grid-column:3}
+.item-ed{grid-column:4}
+.status-pill{grid-column:5}
+.item-arrow{grid-column:6;justify-self:center}
+@media(max-width:1180px){.layout{grid-template-columns:220px minmax(0,1fr)}.sidebar-brand{padding-left:15px}.sidebar-logo{width:125px}.topbar-actions{gap:12px}.last-updated{display:none}.content-grid{grid-template-columns:minmax(0,1fr)}.detail-panel{position:static;max-height:none}.welcome-hero{height:220px}}
+@media(max-width:800px){.app-header{height:auto;min-height:78px;padding:12px 15px}.topbar-title h1{font-size:19px}.topbar-title p{font-size:12px}.topbar-actions{gap:10px}.online-indicator{display:none}.top-reload{padding:9px 12px}.layout{grid-template-columns:76px minmax(0,1fr);min-height:calc(100vh - 78px)}.sidebar{padding:0 7px 12px}.sidebar-brand{margin:0 -7px 12px;padding:12px 6px;align-items:center;min-height:82px;border-radius:0 0 10px 10px}.sidebar-logo{width:58px;height:42px}.sidebar-brand-text{display:none}.nav-item{justify-content:center;padding:10px 5px;min-height:44px}.nav-text{display:none}.sidebar-bottom{display:none}.main{padding:12px}.welcome-hero{height:205px;min-height:190px}.welcome-copy{left:20px;max-width:290px}.welcome-copy h2{font-size:23px}.welcome-copy p{font-size:11px}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){.topbar-title .eyebrow{font-size:8px}.topbar-title h1{font-size:17px}.top-reload span{display:none}.top-reload{padding:9px 11px}.welcome-hero{height:220px}.welcome-copy{max-width:78%;left:15px}.welcome-copy h2{font-size:21px}.welcome-copy strong{font-size:16px}.summary{gap:8px}.stat{padding:10px;gap:8px;min-height:94px}.stat-icon{width:42px;height:42px;font-size:20px}.stat-value{font-size:24px}.main{padding:9px}.toolbar{gap:8px}.toolbar h2{font-size:15px}}
 </style>
 </head>
 <body>
 <header class="app-header">
- <div class="brand" aria-label="Badan POM di Ende">
-  <img class="brand-mark-image" src="assets/bpom-logo.jpg" alt="Logo Badan POM">
-  <div class="brand-name"><span class="end">DI ENDE</span></div>
- </div>
- <div class="hero-title"><h1>Kartu Stok Reagen dan Media<br>Laboratorium Mikrobiologi</h1><p>Akurat • Terpercaya • Untuk Keamanan Obat dan Makanan</p></div>
- <div class="hero-art" aria-label="Foto laboratorium mikrobiologi">
-  <img src="assets/lab-header.jpg" alt="Laboratorium mikrobiologi dengan mikroskop dan cawan kultur">
- </div>
- <div class="date-chip"><span aria-hidden="true">▦</span><span><span id="dateChip">Kamis, 22 Oktober 2026</span><br><span id="timeChip">WIB</span></span></div>
+ <div class="topbar-title"><div class="eyebrow">SISTEM INFORMASI LABORATORIUM</div><h1>Dashboard Kartu Stok</h1><p>Media dan Reagen</p></div>
+ <div class="topbar-actions"><div class="last-updated"><span class="clock-icon">◷</span><span>Terakhir diperbarui<br><strong id="lastUpdated">Menunggu data...</strong></span></div><button id="topReloadButton" class="top-reload" type="button">⟳ <span>Muat ulang</span></button><div class="online-indicator"><i></i> Online</div></div>
 </header>
 <div class="layout">
  <aside class="sidebar">
-  <button class="nav-item active" id="navDashboard" type="button"><span class="nav-icon">⌂</span><span class="nav-text">Dashboard</span></button>
-  <button class="nav-item" id="navStock" type="button"><span class="nav-icon">▤</span><span class="nav-text">Kartu Stok</span></button>
-  <button class="nav-item" id="navHistory" type="button"><span class="nav-icon">◷</span><span class="nav-text">Riwayat Transaksi</span></button>
-  <button class="nav-item" id="navReports" type="button"><span class="nav-icon">▥</span><span class="nav-text">Laporan</span></button>
-  <div class="side-micro"><div class="micro-circle" aria-hidden="true">🦠</div><p>Mikrobiologi<br>untuk Keamanan Pangan<br>dan Kesehatan</p></div><div class="side-decoration"></div>
+  <div class="sidebar-brand"><img class="sidebar-logo" src="https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/bpom-logo.jpg" alt="Logo Badan POM"><div class="sidebar-brand-text"><strong>Balai POM di Ende</strong><span>Laboratorium Mikrobiologi</span></div></div>
+  <nav class="sidebar-nav" aria-label="Navigasi utama">
+   <button class="nav-item active" id="navDashboard" type="button"><span class="nav-icon">⌂</span><span class="nav-text">Beranda</span></button>
+   <button class="nav-item" id="navStock" type="button"><span class="nav-icon">♧</span><span class="nav-text">Media / Reagen</span></button>
+   <button class="nav-item" id="navHistory" type="button"><span class="nav-icon">⟳</span><span class="nav-text">Riwayat Transaksi</span></button>
+   <button class="nav-item" id="navReports" type="button"><span class="nav-icon">▤</span><span class="nav-text">Laporan</span></button>
+   <div class="nav-item nav-static" aria-label="Pengaturan"><span class="nav-icon">⚙</span><span class="nav-text">Pengaturan</span></div>
+  </nav>
+  <div class="sidebar-bottom"><div class="side-lab-art">⚗</div><strong>Laboratorium Mikrobiologi</strong><span>Balai POM di Ende</span><p>Mendukung keamanan pangan untuk masyarakat</p></div>
+  <div class="side-decoration"></div>
  </aside>
  <main class="main">
   <div id="loading" class="status-msg">Memuat dashboard dari spreadsheet...</div><div id="errorBox" class="status-msg error hidden"></div>
   <section id="homeView">
+   <section class="welcome-hero" aria-label="Selamat datang di Dashboard Kartu Stok">
+    <img src="https://raw.githubusercontent.com/labmikroendedigital-coder/dashboard-kartu-stok-bpom-ende/main/assets/lab-header.jpg" alt="Laboratorium mikrobiologi, cawan kultur dan mikroskop">
+    <div class="welcome-overlay"></div>
+    <div class="welcome-copy"><span>Selamat Datang di</span><h2>Dashboard Kartu Stok<br>Media dan Reagen</h2><strong>BPOM di Ende</strong><p>Pantau ketersediaan, kelola stok, dan lacak riwayat transaksi media serta reagen laboratorium dengan mudah dan real-time.</p></div>
+   </section>
    <div class="summary">
     <div class="stat blue"><div class="stat-icon">⚗</div><div><div class="stat-label">Total Kartu Stok</div><div class="stat-value" id="totalCount">—</div><div class="stat-sub">Media &amp; Reagen</div></div></div>
     <div class="stat green"><div class="stat-icon">▣</div><div><div class="stat-label">Total Jenis Bahan</div><div class="stat-value" id="activeCount">—</div><div class="stat-sub">Stok tersedia (&gt; 0)</div></div></div>
@@ -408,5 +470,5 @@ window.setInterval(() => {
   );
  }
 }, 30000);
-</script>
+\nconst topReloadButton=$('topReloadButton');if(topReloadButton)topReloadButton.addEventListener('click',()=>loadDashboard(true));\n</script>
 </body></html>
