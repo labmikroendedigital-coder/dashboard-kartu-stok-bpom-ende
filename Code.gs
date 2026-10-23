@@ -1,6 +1,32 @@
 const CFG={CACHE:'dashboard_v10',TTL:300,CHUNK:20000};
 
-function doGet(){
+function doGet(e){
+  // API JSONP untuk dashboard GitHub Pages; tanpa parameter api tetap tampilkan Web App lama.
+  if (e && e.parameter && e.parameter.api === '1') {
+    const p = e.parameter || {};
+    const callback = String(p.callback || '');
+    if (!/^[A-Za-z_$][0-9A-Za-z_$\.]*$/.test(callback)) {
+      return ContentService.createTextOutput('/* callback JSONP tidak valid */')
+        .setMimeType(ContentService.MimeType.JAVASCRIPT);
+    }
+    let result;
+    try {
+      const action = String(p.action || 'dashboard');
+      if (action === 'dashboard') {
+        result = getDashboardData();
+      } else if (action === 'refresh') {
+        result = refreshDashboardData();
+      } else if (action === 'transactions') {
+        result = getTransactions(String(p.sheetName || ''));
+      } else {
+        throw new Error('Aksi API tidak dikenal: ' + action);
+      }
+    } catch (err) {
+      result = { error: err && err.message ? err.message : String(err) };
+    }
+    return ContentService.createTextOutput(callback + '(' + JSON.stringify(result) + ');')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
   return HtmlService.createHtmlOutputFromFile('Index')
     .setTitle('Dashboard Kartu Stok Media dan Reagen');
 }
