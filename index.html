@@ -44,6 +44,7 @@
   <button class="nav-item active" id="navDashboard" type="button"><span class="nav-icon">⌂</span><span class="nav-text">Dashboard</span></button>
   <button class="nav-item" id="navStock" type="button"><span class="nav-icon">▤</span><span class="nav-text">Kartu Stok</span></button>
   <button class="nav-item" id="navHistory" type="button"><span class="nav-icon">◷</span><span class="nav-text">Riwayat Transaksi</span></button>
+  <button class="nav-item" id="navReports" type="button"><span class="nav-icon">▥</span><span class="nav-text">Laporan</span></button>
   <div class="side-micro"><div class="micro-circle" aria-hidden="true">🦠</div><p>Mikrobiologi<br>untuk Keamanan Pangan<br>dan Kesehatan</p></div><div class="side-decoration"></div>
  </aside>
  <main class="main">
@@ -64,6 +65,28 @@
     <aside class="panel detail-panel" id="sideDetailPanel"><h2>Informasi Media / Reagen</h2><div class="empty">Pilih media atau reagen pada daftar untuk melihat informasi detail.</div><div class="update-note"><strong>✓ Data diperbarui otomatis</strong>Mengacu pada informasi terbaru di kartu stok.</div></aside>
    </div>
   </section>
+  <section id="historyView" class="hidden">
+   <div class="panel">
+    <div class="toolbar"><h2><span class="section-icon">◷</span>Riwayat Transaksi Terbaru</h2><button id="reloadHistoryButton" class="btn light">↻ Muat ulang</button></div>
+    <p class="muted">Menampilkan transaksi masuk dan keluar dari kartu stok yang tersedia.</p>
+    <div id="historyLoading" class="status-msg hidden">Mengumpulkan transaksi terakhir dari kartu stok...</div><div id="historyError" class="status-msg error hidden"></div>
+    <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Media/Reagen</th><th>Batch/Keterangan</th><th>Keluar</th><th>Masuk</th><th>Saldo</th></tr></thead><tbody id="historyBody"></tbody></table></div><div id="historyEmpty" class="empty hidden">Belum ada transaksi yang tercatat.</div>
+   </div>
+  </section>
+  <section id="reportView" class="hidden">
+   <div class="panel">
+    <div class="toolbar"><h2><span class="section-icon">▥</span>Laporan Ringkas Stok</h2><button id="reloadReportButton" class="btn light">↻ Perbarui laporan</button></div>
+    <p class="muted">Ringkasan dihitung dari kartu stok dan transaksi yang tercatat pada spreadsheet.</p>
+    <div class="summary">
+     <div class="stat blue"><div class="stat-icon">▤</div><div><div class="stat-label">Total Kartu Stok</div><div class="stat-value" id="reportTotal">—</div></div></div>
+     <div class="stat green"><div class="stat-icon">＋</div><div><div class="stat-label">Total Unit Masuk</div><div class="stat-value" id="reportIncoming">—</div></div></div>
+     <div class="stat red"><div class="stat-icon">−</div><div><div class="stat-label">Total Unit Keluar</div><div class="stat-value" id="reportOutgoing">—</div></div></div>
+     <div class="stat purple"><div class="stat-icon">⚠</div><div><div class="stat-label">Stok Nol/Negatif</div><div class="stat-value" id="reportZero">—</div></div></div>
+    </div>
+    <div id="reportLoading" class="status-msg hidden">Menghitung ringkasan transaksi...</div><div id="reportError" class="status-msg error hidden"></div>
+    <h3>Transaksi Terbaru</h3><div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Media/Reagen</th><th>Keterangan</th><th>Keluar</th><th>Masuk</th><th>Saldo</th></tr></thead><tbody id="reportBody"></tbody></table></div>
+   </div>
+  </section>
   <section id="detailView" class="hidden">
    <div class="detail-top"><button id="backButton" class="btn light">← Kembali ke daftar</button><button id="reloadDetailButton" class="btn light">↻ Muat ulang detail</button></div>
    <div id="detailLoading" class="status-msg hidden">Memuat detail kartu stok...</div><div id="detailError" class="status-msg error hidden"></div>
@@ -78,7 +101,7 @@
 </div>
 <script>
 'use strict';
-let data=null,currentSheet=null,busyDashboard=false,busyDetail=false;
+let data=null,currentSheet=null,busyDashboard=false,busyDetail=false,allTransactionsCache=null,allTransactionsAt=0,busyAggregate=false;
 const $=id=>document.getElementById(id);
 function txt(id,v){const el=$(id);if(el)el.textContent=(v===null||v===undefined||v==='')?'—':String(v)}
 function show(id,msg){$(id).textContent=msg;$(id).classList.remove('hidden')}
@@ -260,8 +283,40 @@ function renderTransactions(rows){
    body.append(tr);
  });
 }
-$('searchInput').addEventListener('input',renderList);$('reloadButton').addEventListener('click',()=>loadDashboard(true));$('backButton').addEventListener('click',()=>{$('homeView').classList.remove('hidden');$('detailView').classList.add('hidden');currentSheet=null});$('reloadDetailButton').addEventListener('click',()=>{if(currentSheet&&!busyDetail)loadDetail(currentSheet)});
-$('navDashboard').addEventListener('click',()=>{$('homeView').classList.remove('hidden');$('detailView').classList.add('hidden');currentSheet=null;$('navDashboard').classList.add('active');$('navStock').classList.remove('active');$('navHistory').classList.remove('active')});$('navStock').addEventListener('click',()=>{$('homeView').classList.remove('hidden');$('detailView').classList.add('hidden');currentSheet=null;$('navDashboard').classList.remove('active');$('navStock').classList.add('active');$('navHistory').classList.remove('active');$('searchInput').focus()});$('navHistory').addEventListener('click',()=>{if(currentSheet){$('navDashboard').classList.remove('active');$('navStock').classList.remove('active');$('navHistory').classList.add('active');$('detailView').scrollIntoView({behavior:'smooth'})}else{show('errorBox','Pilih media/reagen terlebih dahulu untuk melihat riwayat transaksi.')}});
+function activateView(view){
+ ['homeView','detailView','historyView','reportView'].forEach(id=>$(id).classList.toggle('hidden',id!==view));
+ ['navDashboard','navStock','navHistory','navReports'].forEach(id=>$(id).classList.remove('active'));
+ const nav=view==='historyView'?'navHistory':view==='reportView'?'navReports':view==='detailView'?'navStock':'navDashboard';
+ $(nav).classList.add('active');
+}
+$('searchInput').addEventListener('input',renderList);
+$('reloadButton').addEventListener('click',()=>loadDashboard(true));
+$('backButton').addEventListener('click',()=>activateView('homeView'));
+$('reloadDetailButton').addEventListener('click',()=>{if(currentSheet&&!busyDetail)loadDetail(currentSheet)});
+$('navDashboard').addEventListener('click',()=>activateView('homeView'));
+$('navStock').addEventListener('click',()=>{activateView('homeView');$('searchInput').focus()});
+$('navHistory').addEventListener('click',()=>{activateView('historyView');loadAggregate(false)});
+$('navReports').addEventListener('click',()=>{activateView('reportView');loadAggregate(false)});
+$('reloadHistoryButton').addEventListener('click',()=>loadAggregate(true));
+$('reloadReportButton').addEventListener('click',()=>loadAggregate(true));
+function normalizeNum(v){const n=Number(String(v??'').replace(',','.').replace(/[^0-9.-]/g,''));return Number.isFinite(n)?n:0}
+function loadAggregate(force){
+ if(busyAggregate)return;
+ if(!force&&allTransactionsCache&&Date.now()-allTransactionsAt<120000){renderAggregate();return}
+ if(!data||!Array.isArray(data.items)){show('historyError','Data dashboard belum tersedia. Kembali ke Dashboard dan muat ulang.');show('reportError','Data dashboard belum tersedia. Kembali ke Dashboard dan muat ulang.');return}
+ busyAggregate=true;hide('historyError');hide('reportError');$('historyLoading').classList.remove('hidden');$('reportLoading').classList.remove('hidden');
+ const items=data.items.slice();const rows=[];let index=0,failed=0,active=0;const workers=Math.min(4,items.length);
+ const finish=()=>{busyAggregate=false;hide('historyLoading');hide('reportLoading');allTransactionsCache=rows;allTransactionsAt=Date.now();renderAggregate();if(failed){const msg=failed+' kartu stok tidak berhasil dibaca; laporan mencakup data yang berhasil diambil.';show('historyError',msg);show('reportError',msg)}};
+ const worker=()=>{if(index>=items.length){active--;if(active===0)finish();return}const item=items[index++];callPublicApi('transactions',{sheetName:item.sheetName},d=>{(d.transactions||[]).forEach(r=>{if(String(r.date||'').trim()||String(r.incoming||'').trim()||String(r.outgoing||'').trim())rows.push({...r,itemName:d.name||item.name||item.sheetName,sheetName:item.sheetName})});worker()},()=>{failed++;worker()})};
+ if(!items.length){finish();return}for(let i=0;i<workers;i++){active++;worker()}
+}
+function renderAggregate(){
+ const rows=(allTransactionsCache||[]).slice().sort((a,b)=>{const da=parseDateLocal(a.date),db=parseDateLocal(b.date);if(da&&db)return db-da;if(da)return -1;if(db)return 1;return 0});
+ const recent=rows.slice(0,100);
+ const paint=(id,subset)=>{const body=$(id);body.replaceChildren();subset.forEach(r=>{const tr=document.createElement('tr');[r.date,r.itemName||r.sheetName,r.description||r.batch, r.outgoing||'0',r.incoming||'0',r.balance||''].forEach(v=>{const td=document.createElement('td');td.textContent=v??'';tr.append(td)});if(normalizeNum(r.incoming)>0)tr.style.background='#f0fdf4';else if(normalizeNum(r.outgoing)>0)tr.style.background='#fff7ed';body.append(tr)})};
+ paint('historyBody',recent);paint('reportBody',recent);$('historyEmpty').classList.toggle('hidden',recent.length>0);
+ txt('reportTotal',data?.items?.length||0);txt('reportIncoming',rows.reduce((s,r)=>s+normalizeNum(r.incoming),0));txt('reportOutgoing',rows.reduce((s,r)=>s+normalizeNum(r.outgoing),0));txt('reportZero',data?.summary?.zeroStock??data?.items?.filter(x=>normalizeNum(x.stock)<=0).length??0);
+}
 window.addEventListener('load',()=>{const updateClock=()=>{const now=new Date();txt('dateChip',now.toLocaleDateString('id-ID',{weekday:'short',day:'2-digit',month:'short',year:'numeric'}));txt('timeChip',now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Makassar'})+' WITA')};updateClock();window.setInterval(updateClock,60000);loadDashboard(false)});
 window.setInterval(() => {
  if (!busyDashboard) loadDashboard(true);
