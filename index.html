@@ -85,10 +85,84 @@ function show(id,msg){$(id).textContent=msg;$(id).classList.remove('hidden')}
 function hide(id){$(id).classList.add('hidden')}
 function parseDateLocal(v){if(!v)return null;const m=String(v).trim().match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);if(!m)return null;const months={januari:0,februari:1,maret:2,april:3,mei:4,juni:5,juli:6,agustus:7,september:8,oktober:9,november:10,desember:11,jan:0,feb:1,mar:2,apr:3,jun:5,jul:6,agu:7,sep:8,okt:9,nov:10,des:11};const mo=months[m[2].toLowerCase()];return mo===undefined?null:new Date(Number(m[3]),mo,Number(m[1]));}
 function fmtDateShort(v){if(!v||v==='-')return '—';return String(v).replace('Januari','Jan').replace('Februari','Feb').replace('Maret','Mar').replace('April','Apr').replace('Juni','Jun').replace('Juli','Jul').replace('Agustus','Agu').replace('September','Sep').replace('Oktober','Okt').replace('November','Nov').replace('Desember','Des')}
-function loadDashboard(refresh){
- if(busyDashboard)return;busyDashboard=true;$('reloadButton').disabled=true;$('reloadButton').textContent='Memuat...';$('loading').classList.remove('hidden');hide('errorBox');
- const runner=google.script.run.withSuccessHandler(d=>{busyDashboard=false;$('reloadButton').disabled=false;$('reloadButton').textContent='↻ Muat ulang';hide('loading');if(!d||!Array.isArray(d.items)){show('errorBox','Format data dashboard tidak sesuai.');return}data=d;renderDashboard(d);}).withFailureHandler(e=>{busyDashboard=false;$('reloadButton').disabled=false;$('reloadButton').textContent='↻ Muat ulang';hide('loading');show('errorBox','Gagal memuat dashboard: '+(e&&e.message?e.message:'Kesalahan koneksi')+'. Periksa izin spreadsheet dan Executions Apps Script.');});
- if(refresh)runner.refreshDashboardData();else runner.getDashboardData();
+const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbx6ScOSkfxWDs0MqeSwJ59EfscOnFPyYM0u302PMvgfTM1d7IFY1gB-BA7mtf3NGooI0Q/exec';
+let apiRequestCounter = 0;
+
+function callPublicApi(action, params, success, failure) {
+  const callbackName = '__stockApiCb' + (++apiRequestCounter) + '_' + Date.now();
+  const query = new URLSearchParams({
+    api: '1',
+    action: action,
+    callback: callbackName,
+    ...(params || {})
+  });
+  const script = document.createElement('script');
+  let finished = false;
+  let timer;
+
+  function cleanup() {
+    if (finished) return;
+    finished = true;
+    try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+    if (script.parentNode) script.parentNode.removeChild(script);
+    clearTimeout(timer);
+  }
+
+  timer = setTimeout(() => {
+    cleanup();
+    if (failure) failure(new Error('Permintaan API melewati batas waktu. Periksa deployment Apps Script dan izinnya.'));
+  }, 20000);
+
+  window[callbackName] = result => {
+    cleanup();
+    if (result && result.error) {
+      if (failure) failure(new Error(result.error));
+      return;
+    }
+    if (success) success(result);
+  };
+
+  script.onerror = () => {
+    cleanup();
+    if (failure) failure(new Error('Tidak dapat mengakses API Apps Script. Periksa deployment Web app dan izin akses.'));
+  };
+
+  script.src = APPS_SCRIPT_API_URL + '?' + query.toString();
+  script.async = true;
+  document.head.appendChild(script);
+}
+
+function loadDashboard(refresh) {
+ if (busyDashboard) return;
+ busyDashboard = true;
+ $('reloadButton').disabled = true;
+ $('reloadButton').textContent = 'Memuat...';
+ $('loading').classList.remove('hidden');
+ hide('errorBox');
+
+ callPublicApi(
+  refresh ? 'refresh' : 'dashboard',
+  {},
+  d => {
+   busyDashboard = false;
+   $('reloadButton').disabled = false;
+   $('reloadButton').textContent = '↻ Muat ulang';
+   hide('loading');
+   if (!d || !Array.isArray(d.items)) {
+    show('errorBox', 'Format data dashboard tidak sesuai.');
+    return;
+   }
+   data = d;
+   renderDashboard(d);
+  },
+  e => {
+   busyDashboard = false;
+   $('reloadButton').disabled = false;
+   $('reloadButton').textContent = '↻ Muat ulang';
+   hide('loading');
+   show('errorBox', 'Gagal memuat dashboard: ' + (e && e.message ? e.message : 'Kesalahan koneksi') + '. Pastikan Code.gs sudah diperbarui dan deployment Web app sudah dibuat ulang.');
+  }
+ );
 }
 function renderDashboard(d){const s=d.summary||{};txt('totalCount',s.total??d.items.length);txt('activeCount',(d.items||[]).filter(x=>Number(x.stock)>0).length);txt('zeroCount',s.zeroStock??0);txt('nearCount',s.nearExpiry??0);renderList();txt('footer','Sumber: '+(d.spreadsheetName||'Spreadsheet')+' · Diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}));}
 function categoryOf(x){const t=((x.name||'')+' '+(x.sheetName||'')).toLowerCase();return /(agar|broth|medium|media|tsa|tsb|muller|sda|sabouraud|blood agar|nutrient)/.test(t)?'Media':'Reagen'}
@@ -111,7 +185,25 @@ function renderList(){
  });
  txt('listCount',items.length+' bahan dengan stok tersedia');$('emptySearch').classList.toggle('hidden',items.length>0);
 }
-function loadDetail(name){if(!name||busyDetail)return;currentSheet=name;busyDetail=true;document.querySelectorAll('.item.selected-item').forEach(el=>el.classList.remove('selected-item'));const chosen=[...document.querySelectorAll('.item')].find(el=>el.dataset.sheetName===name);if(chosen)chosen.classList.add('selected-item');const panel=$('sideDetailPanel');panel.innerHTML='<h2>Informasi Media / Reagen</h2><div class="status-msg">Memuat detail kartu stok...</div>';google.script.run.withSuccessHandler(d=>{busyDetail=false;renderDetail(d)}).withFailureHandler(e=>{busyDetail=false;panel.innerHTML='<h2>Informasi Media / Reagen</h2><div class="status-msg error">Gagal memuat detail: '+escapeHtml(e&&e.message?e.message:'Kesalahan koneksi')+'</div>'}).getTransactions(name)}
+function loadDetail(name) {
+ if (!name || busyDetail) return;
+ currentSheet = name;
+ busyDetail = true;
+ document.querySelectorAll('.item.selected-item').forEach(el => el.classList.remove('selected-item'));
+ const chosen = [...document.querySelectorAll('.item')].find(el => el.dataset.sheetName === name);
+ if (chosen) chosen.classList.add('selected-item');
+ const panel = $('sideDetailPanel');
+ panel.innerHTML = '<h2>Informasi Media / Reagen</h2><div class="status-msg">Memuat detail kartu stok...</div>';
+ callPublicApi(
+  'transactions',
+  {sheetName: name},
+  d => { busyDetail = false; renderDetail(d); },
+  e => {
+   busyDetail = false;
+   panel.innerHTML = '<h2>Informasi Media / Reagen</h2><div class="status-msg error">Gagal memuat detail: ' + escapeHtml(e && e.message ? e.message : 'Kesalahan koneksi') + '</div>';
+  }
+ );
+}
 function escapeHtml(value){return String(value??'').replace(/[&<>\"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));}
 function renderDetail(d){
  txt('detailName',d.name||d.sheetName);txt('detailSheet','Kartu stok: '+d.sheetName);txt('detailUnit',d.unit);txt('detailManufacturer',d.manufacturer);
@@ -162,6 +254,17 @@ function renderTransactions(rows){
 $('searchInput').addEventListener('input',renderList);$('reloadButton').addEventListener('click',()=>loadDashboard(true));$('backButton').addEventListener('click',()=>{$('homeView').classList.remove('hidden');$('detailView').classList.add('hidden');currentSheet=null});$('reloadDetailButton').addEventListener('click',()=>{if(currentSheet&&!busyDetail)loadDetail(currentSheet)});
 $('navDashboard').addEventListener('click',()=>{$('homeView').classList.remove('hidden');$('detailView').classList.add('hidden');currentSheet=null;$('navDashboard').classList.add('active');$('navStock').classList.remove('active');$('navHistory').classList.remove('active')});$('navStock').addEventListener('click',()=>{$('homeView').classList.remove('hidden');$('detailView').classList.add('hidden');currentSheet=null;$('navDashboard').classList.remove('active');$('navStock').classList.add('active');$('navHistory').classList.remove('active');$('searchInput').focus()});$('navHistory').addEventListener('click',()=>{if(currentSheet){$('navDashboard').classList.remove('active');$('navStock').classList.remove('active');$('navHistory').classList.add('active');$('detailView').scrollIntoView({behavior:'smooth'})}else{show('errorBox','Pilih media/reagen terlebih dahulu untuk melihat riwayat transaksi.')}});
 window.addEventListener('load',()=>{const updateClock=()=>{const now=new Date();txt('dateChip',now.toLocaleDateString('id-ID',{weekday:'short',day:'2-digit',month:'short',year:'numeric'}));txt('timeChip',now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Makassar'})+' WITA')};updateClock();window.setInterval(updateClock,60000);loadDashboard(false)});
-window.setInterval(()=>{if(!busyDashboard)loadDashboard(true);if(currentSheet&&!busyDetail){const name=currentSheet;google.script.run.withSuccessHandler(d=>{if(currentSheet===name&&d)renderDetail(d)}).withFailureHandler(e=>console.warn('Pembaruan detail otomatis gagal',e)).getTransactions(name)}},30000);
+window.setInterval(() => {
+ if (!busyDashboard) loadDashboard(true);
+ if (currentSheet && !busyDetail) {
+  const name = currentSheet;
+  callPublicApi(
+   'transactions',
+   {sheetName: name},
+   d => { if (currentSheet === name && d) renderDetail(d); },
+   e => console.warn('Pembaruan detail otomatis gagal', e)
+  );
+ }
+}, 30000);
 </script>
 </body></html>
