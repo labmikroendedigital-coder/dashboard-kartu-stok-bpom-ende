@@ -491,6 +491,44 @@ body:before{display:none!important}
  .list-head,.item{grid-template-columns:28px 20px minmax(230px,2.6fr) 82px 50px 92px 80px 12px!important;min-width:690px!important;column-gap:5px!important}
  .toolbar h2{flex-basis:100%!important}
  .search{max-width:none!important;width:100%!important}
+}
+/* BLUE EMPHASIS + INDEPENDENT STOCK-LIST SCROLL (desktop) */
+:root{--ink:#103b68;--line:#c8ddf2;--blue:#086bc2;--bg:#edf5fc}
+body{background:#edf5fc!important;color:#103b68!important}
+.app-header{border-bottom:2px solid #1677c8!important}
+.sidebar{background:linear-gradient(180deg,#0756a0 0%,#063568 58%,#05264e 100%)!important}
+.nav-item.active,.nav-item:hover{background:linear-gradient(100deg,#1689e8,#0863b6)!important;color:#fff!important}
+.panel{border-color:#c9def2!important;box-shadow:0 4px 16px rgba(8,76,139,.07)!important}
+.toolbar h2,.panel h2{color:#0756a0!important}
+.section-icon{color:#0783df!important}
+.list-area{border-color:#b9d5ef!important;background:#fff!important;overscroll-behavior:contain!important}
+.list-head{background:#dceeff!important;color:#124b7e!important;border-bottom:1px solid #b7d7f5!important}
+.item{border-bottom-color:#e1edf8!important}
+.item:nth-child(even){background:#f5faff!important}
+.item:hover{background:#e5f3ff!important}
+.item.selected-item{background:#dceeff!important;outline-color:#1683dc!important}
+.item-num{color:#075eaa!important}
+.item-category{background:#e4f1ff!important;color:#0757a0!important}
+.item-category.reagent{background:#e9e5ff!important;color:#5b3eaa!important}
+.status-pill{border:1px solid #c5ddf3!important}
+.search{border-color:#b9d5ef!important}
+.detail-panel{border-top:3px solid #1683dc!important}
+@media(min-width:901px){
+ .layout{height:calc(100vh - 132px)!important;min-height:0!important;overflow:hidden!important;grid-template-columns:218px minmax(0,1fr)!important}
+ .sidebar{position:sticky!important;top:0!important;height:100%!important;min-height:0!important;box-sizing:border-box!important;overflow-y:auto!important}
+ .main{height:100%!important;min-height:0!important;box-sizing:border-box!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+ #homeView .content-grid{align-items:start!important;min-height:0!important}
+ #homeView .content-grid>section.panel{min-width:0!important}
+ #homeView .list-area{height:calc(100vh - 385px)!important;min-height:220px!important;max-height:calc(100vh - 300px)!important;overflow-y:auto!important;overflow-x:auto!important;overscroll-behavior:contain!important;scrollbar-gutter:stable!important}
+ #homeView .list-head{position:sticky!important;top:0!important;z-index:5!important}
+ #sideDetailPanel{position:sticky!important;top:14px!important;max-height:calc(100vh - 160px)!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+}
+@media(max-width:900px){
+ .layout{height:auto!important;min-height:0!important;overflow:visible!important}
+ .sidebar{position:relative!important;height:auto!important;overflow:visible!important}
+ .main{height:auto!important;overflow:visible!important}
+ #homeView .list-area{height:auto!important;max-height:none!important;overflow-x:auto!important;overflow-y:visible!important}
+ #sideDetailPanel{position:static!important;max-height:none!important;overflow:visible!important}
 }</style>
 </head>
 <body>
