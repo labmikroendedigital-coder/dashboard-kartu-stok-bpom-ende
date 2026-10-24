@@ -842,3 +842,7 @@ window.setInterval(() => {
 const topReloadButton=$('topReloadButton');if(topReloadButton)topReloadButton.addEventListener('click',()=>loadDashboard(true));
 </script>
 </body></html>
+
+/* BANNER IMAGE FRAMING: show more of the full photo */
+.welcome-hero>img{object-fit:cover!important;object-position:center 42%!important;transform:scale(.86)!important;transform-origin:center!important;width:100%!important;height:100%!important}
+@media(max-width:900px){.welcome-hero>img{transform:scale(.92)!important;object-position:center 45%!important}}
