@@ -529,7 +529,37 @@ body{background:#edf5fc!important;color:#103b68!important}
  .main{height:auto!important;overflow:visible!important}
  #homeView .list-area{height:auto!important;max-height:none!important;overflow-x:auto!important;overflow-y:visible!important}
  #sideDetailPanel{position:static!important;max-height:none!important;overflow:visible!important}
-}</style>
+}
+/* FINAL VISUAL POLISH: balanced banner, refined cards, cleaner navigation */
+:root{--shadow:0 12px 30px rgba(13,61,112,.08)}
+body{background:linear-gradient(145deg,#f5f9ff 0%,#edf4fb 52%,#f8fbff 100%)}
+.app-header{background:linear-gradient(110deg,#fff 0%,#edf7ff 52%,#d8edff 100%);box-shadow:0 5px 20px rgba(16,61,112,.07)}
+.topbar-title h1{letter-spacing:-.55px}
+.sidebar{box-shadow:5px 0 24px rgba(5,36,74,.07)}
+.nav-item{min-height:45px}
+.nav-item.active{box-shadow:0 8px 20px rgba(2,30,65,.22)}
+.main{padding-top:24px}
+.welcome-hero{height:clamp(245px,23vw,320px)!important;min-height:245px!important;border-radius:18px!important;border:1px solid #c9e2f7!important;box-shadow:0 14px 34px rgba(11,76,128,.13)!important;background:#e8f3fb!important}
+.welcome-hero>img,.welcome-hero img{object-fit:cover!important;object-position:center 48%!important;transform:none!important;filter:saturate(1.04) contrast(1.02)}
+.welcome-overlay{background:linear-gradient(90deg,rgba(4,35,77,.94) 0%,rgba(5,48,96,.83) 35%,rgba(5,48,96,.40) 62%,rgba(5,48,96,.04) 100%)!important}
+.welcome-copy{max-width:660px!important;padding:clamp(20px,3vw,34px)!important}
+.welcome-copy>span{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.12);font-weight:750;letter-spacing:.6px}
+.welcome-copy h2{font-size:clamp(25px,3vw,38px)!important;line-height:1.12!important;letter-spacing:-.7px!important;text-shadow:0 2px 12px rgba(0,0,0,.15)}
+.welcome-copy strong{display:inline-block;margin-top:3px;font-size:clamp(16px,1.8vw,21px)!important;color:#bde7ff!important}
+.welcome-copy p{max-width:560px!important;font-size:13px!important;line-height:1.7!important;color:#f2f8ff!important}
+.summary{gap:16px;margin-bottom:22px}
+.stat{border-radius:16px;box-shadow:0 8px 24px rgba(15,64,108,.06);transition:transform .18s ease,box-shadow .18s ease}
+.stat:hover{transform:translateY(-3px);box-shadow:0 13px 28px rgba(15,64,108,.11)}
+.panel,.detail-card{border-radius:16px;box-shadow:0 8px 26px rgba(15,64,108,.055)}
+.toolbar{row-gap:10px}
+.search{min-height:42px}
+.btn,.top-reload{border-radius:10px;box-shadow:0 3px 8px rgba(7,75,139,.08)}
+.list-head{border-radius:10px 10px 0 0}
+.item{min-height:60px}
+.status-pill{letter-spacing:.1px}
+@media(max-width:950px){.welcome-hero{height:235px!important;min-height:235px!important}.welcome-copy{max-width:82%!important}.welcome-copy h2{font-size:25px!important}}
+@media(max-width:620px){.main{padding-top:12px}.welcome-hero{height:225px!important;min-height:225px!important;border-radius:13px!important}.welcome-hero>img,.welcome-hero img{object-position:center center!important}.welcome-overlay{background:linear-gradient(90deg,rgba(4,35,77,.91),rgba(5,48,96,.68) 67%,rgba(5,48,96,.2))!important}.welcome-copy{max-width:100%!important;padding:17px!important}.welcome-copy h2{font-size:22px!important}.welcome-copy p{font-size:11px!important;line-height:1.55!important}.summary{gap:9px}.stat{border-radius:13px}.panel{border-radius:13px}}
+</style>
 </head>
 <body>
 <header class="app-header">
@@ -842,8 +872,3 @@ window.setInterval(() => {
 const topReloadButton=$('topReloadButton');if(topReloadButton)topReloadButton.addEventListener('click',()=>loadDashboard(true));
 </script>
 </body></html>
-
-/* BANNER IMAGE FRAMING: display the entire image without cropping */
-.welcome-hero{background:#e8eff5!important}
-.welcome-hero>img{object-fit:contain!important;object-position:center center!important;transform:none!important;width:100%!important;height:100%!important}
-@media(max-width:900px){.welcome-hero>img{object-fit:contain!important;object-position:center center!important;transform:none!important}}
