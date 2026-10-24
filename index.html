@@ -559,6 +559,10 @@ body{background:linear-gradient(145deg,#f5f9ff 0%,#edf4fb 52%,#f8fbff 100%)}
 .status-pill{letter-spacing:.1px}
 @media(max-width:950px){.welcome-hero{height:235px!important;min-height:235px!important}.welcome-copy{max-width:82%!important}.welcome-copy h2{font-size:25px!important}}
 @media(max-width:620px){.main{padding-top:12px}.welcome-hero{height:225px!important;min-height:225px!important;border-radius:13px!important}.welcome-hero>img,.welcome-hero img{object-position:center center!important}.welcome-overlay{background:linear-gradient(90deg,rgba(4,35,77,.91),rgba(5,48,96,.68) 67%,rgba(5,48,96,.2))!important}.welcome-copy{max-width:100%!important;padding:17px!important}.welcome-copy h2{font-size:22px!important}.welcome-copy p{font-size:11px!important;line-height:1.55!important}.summary{gap:9px}.stat{border-radius:13px}.panel{border-radius:13px}}
+
+/* Banner text readability: remove the white card while retaining contrast over the dark overlay. */
+.welcome-copy{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.welcome-copy>span{background:transparent!important;border-color:rgba(255,255,255,.4)!important}
 </style>
 </head>
 <body>
