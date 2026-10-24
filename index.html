@@ -743,7 +743,7 @@ function loadDashboard(refresh) {
   }
  );
 }
-function renderDashboard(d){const s=d.summary||{};txt('totalCount',s.total??d.items.length);txt('activeCount',(d.items||[]).filter(x=>Number(x.stock)>0).length);txt('zeroCount',s.zeroStock??0);txt('nearCount',s.nearExpiry??0);renderList();txt('footer','Sumber: '+(d.spreadsheetName||'Spreadsheet')+' · Diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}));}
+function renderDashboard(d){const s=d.summary||{};txt('totalCount',s.total??d.items.length);txt('activeCount',(d.items||[]).filter(x=>Number(x.stock)>0).length);txt('zeroCount',s.zeroStock??0);txt('nearCount',s.nearExpiry??0);renderList();txt('footer','Sumber: KARTU STOCK MEDIA DAN REAGEN MIKROBIOLOGI · Diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}));}
 function categoryOf(x){const t=((x.name||'')+' '+(x.sheetName||'')).toLowerCase();return /(agar|broth|medium|media|tsa|tsb|muller|sda|sabouraud|blood agar|nutrient)/.test(t)?'Media':'Reagen'}
 function nearestExpiry(x){const ds=String(x.expiry||'').split(/[\n;,]+/).map(s=>s.trim()).filter(Boolean);if(ds.length)return ds[0];return '—'}
 function renderList(){
